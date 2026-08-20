@@ -1,0 +1,75 @@
+views:
+  - type: table
+    name: Who matters
+    filters:
+      and:
+        - file.hasTag("npc")
+        - '!file.inFolder("08 Templates")'
+        - tier != "background"
+    order:
+      - file.name
+      - tier
+      - status
+      - disposition
+      - faction
+      - last_seen
+  - type: table
+    name: Allies
+    filters:
+      and:
+        - file.hasTag("npc")
+        - '!file.inFolder("08 Templates")'
+        - disposition == "ally" || disposition == "friendly" || disposition == "employer"
+    order:
+      - file.name
+      - disposition
+      - tier
+      - based
+      - faction
+      - last_seen
+  - type: table
+    name: Pointed at us
+    filters:
+      and:
+        - file.hasTag("npc")
+        - '!file.inFolder("08 Templates")'
+        - disposition == "hostile"
+    order:
+      - file.name
+      - tier
+      - faction
+      - based
+      - last_seen
+  - type: table
+    name: Loose ends
+    filters:
+      and:
+        - file.hasTag("npc")
+        - '!file.inFolder("08 Templates")'
+        - status == "unknown" || status == "missing" || status == "presumed-dead"
+    order:
+      - file.name
+      - status
+      - tier
+      - last_seen
+      - based
+  - type: table
+    name: Cael's cover
+    filters:
+      and:
+        - file.hasTag("cael-circle")
+    order:
+      - file.name
+      - based
+      - status
+      - disposition
+  - type: table
+    name: The dead
+    filters:
+      and:
+        - file.hasTag("npc")
+        - status == "dead"
+    order:
+      - file.name
+      - faction
+      - last_seen

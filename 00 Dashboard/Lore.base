@@ -1,0 +1,25 @@
+views:
+  - type: table
+    name: What we believe
+    filters:
+      and:
+        - file.hasTag("lore")
+        - '!file.inFolder("08 Templates")'
+    order:
+      - file.name
+      - type
+      - confidence
+      - source
+      - first_seen
+  - type: table
+    name: On one person's word
+    filters:
+      and:
+        - file.hasTag("lore")
+        - '!file.inFolder("08 Templates")'
+        - confidence != "established"
+    order:
+      - file.name
+      - confidence
+      - source
+      - first_seen

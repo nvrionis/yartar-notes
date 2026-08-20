@@ -1,0 +1,13 @@
+.obsidian/workspace
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache
+.trash/
+.DS_Store
+Thumbs.db
+*.tmp
+
+# Private — operating instructions and the Cael boundary. Never published.
+CLAUDE.md
+_Restricted/
+.claude/

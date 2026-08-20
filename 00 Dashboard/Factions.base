@@ -1,0 +1,40 @@
+views:
+  - type: table
+    name: All factions
+    filters:
+      and:
+        - file.hasTag("faction")
+        - '!file.inFolder("08 Templates")'
+    order:
+      - file.name
+      - type
+      - status
+      - threat
+      - disposition
+      - base
+      - leader
+  - type: table
+    name: Dangerous
+    filters:
+      and:
+        - file.hasTag("faction")
+        - '!file.inFolder("08 Templates")'
+        - threat == "high"
+    order:
+      - file.name
+      - disposition
+      - status
+      - base
+      - leader
+  - type: table
+    name: Hostile to us
+    filters:
+      and:
+        - file.hasTag("faction")
+        - '!file.inFolder("08 Templates")'
+        - disposition == "hostile"
+    order:
+      - file.name
+      - threat
+      - status
+      - base

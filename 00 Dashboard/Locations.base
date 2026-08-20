@@ -1,0 +1,51 @@
+views:
+  - type: table
+    name: Everywhere
+    filters:
+      and:
+        - file.hasTag("location")
+        - '!file.inFolder("08 Templates")'
+    order:
+      - file.name
+      - type
+      - parent
+      - status
+      - danger
+      - access
+      - last_visited
+  - type: table
+    name: Do not walk in
+    filters:
+      and:
+        - file.hasTag("location")
+        - '!file.inFolder("08 Templates")'
+        - danger == "risky" || danger == "deadly"
+    order:
+      - file.name
+      - danger
+      - access
+      - controlled_by
+      - last_visited
+  - type: table
+    name: Yartar
+    filters:
+      and:
+        - file.hasTag("location")
+        - parent == link("Yartar")
+    order:
+      - file.name
+      - type
+      - danger
+      - access
+      - controlled_by
+  - type: table
+    name: Gone or barred
+    filters:
+      and:
+        - file.hasTag("location")
+        - status != "intact" || access == "barred"
+    order:
+      - file.name
+      - status
+      - access
+      - danger

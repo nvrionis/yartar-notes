@@ -1,0 +1,78 @@
+views:
+  - type: table
+    name: By heat
+    filters:
+      and:
+        - file.hasTag("thread")
+        - '!file.inFolder("08 Templates")'
+        - status == "active"
+    order:
+      - file.name
+      - heat
+      - type
+      - opened
+      - involves
+    sort:
+      - property: heat
+        direction: ASC
+  - type: table
+    name: Hot
+    filters:
+      and:
+        - file.hasTag("thread")
+        - '!file.inFolder("08 Templates")'
+        - heat == "hot"
+        - status == "active"
+    order:
+      - file.name
+      - type
+      - opened
+      - involves
+  - type: table
+    name: Quests
+    filters:
+      and:
+        - file.hasTag("thread")
+        - '!file.inFolder("08 Templates")'
+        - type == "quest" || type == "promise"
+    order:
+      - file.name
+      - type
+      - heat
+      - status
+      - opened
+  - type: table
+    name: Threats
+    filters:
+      and:
+        - file.hasTag("thread")
+        - '!file.inFolder("08 Templates")'
+        - type == "threat"
+    order:
+      - file.name
+      - heat
+      - opened
+      - involves
+  - type: table
+    name: Mysteries
+    filters:
+      and:
+        - file.hasTag("thread")
+        - '!file.inFolder("08 Templates")'
+        - type == "mystery"
+    order:
+      - file.name
+      - heat
+      - opened
+      - involves
+  - type: table
+    name: Closed
+    filters:
+      and:
+        - file.hasTag("thread")
+        - status != "active"
+    order:
+      - file.name
+      - status
+      - type
+      - opened

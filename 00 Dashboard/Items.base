@@ -1,0 +1,40 @@
+views:
+  - type: table
+    name: Everything we hold
+    filters:
+      and:
+        - file.hasTag("item")
+        - '!file.inFolder("08 Templates")'
+        - status == "held"
+    order:
+      - file.name
+      - type
+      - holder
+      - identified
+      - attuned
+      - origin
+  - type: table
+    name: Unidentified
+    filters:
+      and:
+        - file.hasTag("item")
+        - '!file.inFolder("08 Templates")'
+        - identified == false
+    order:
+      - file.name
+      - type
+      - holder
+      - origin
+      - first_seen
+  - type: table
+    name: Not in our hands
+    filters:
+      and:
+        - file.hasTag("item")
+        - '!file.inFolder("08 Templates")'
+        - status != "held"
+    order:
+      - file.name
+      - type
+      - status
+      - origin

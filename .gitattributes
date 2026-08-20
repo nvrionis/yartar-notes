@@ -1,0 +1,5 @@
+# Markdown notes: normalise line endings so commits stay clean on Windows
+* text=auto eol=lf
+*.md text eol=lf
+*.base text eol=lf
+*.css text eol=lf

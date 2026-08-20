@@ -1,0 +1,16 @@
+/* Enable in Obsidian: Settings > Appearance > CSS snippets */
+
+.callout[data-callout="cael"] {
+  --callout-color: 150, 150, 160;
+  --callout-icon: lucide-venetian-mask;
+  border-left: 3px solid rgba(150, 150, 160, 0.6);
+  font-style: italic;
+}
+
+.callout[data-callout="cael"] .callout-title {
+  font-style: normal;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.82em;
+  opacity: 0.75;
+}
