@@ -1,0 +1,708 @@
+<title>Yartar Vault Index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --ground:#E9EBEA; --paper:#F4F5F4; --raise:#FFFFFF;
+  --ink:#14181B; --slate:#59656E; --faint:#8A949B;
+  --rule:#D2D7D7; --rule-soft:#E0E4E3;
+  --brass:#A06A21; --brass-soft:#EFE2CC;
+  --river:#2C5666; --river-soft:#DCE7EA;
+  --oxblood:#8A2E2E; --oxblood-soft:#F0DCDA;
+  --shadow:0 1px 2px rgba(20,24,27,.06),0 8px 24px -12px rgba(20,24,27,.18);
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:"Public Sans",system-ui,-apple-system,Segoe UI,sans-serif;
+  --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#101518; --paper:#161D21; --raise:#1C252A;
+    --ink:#E2E7E9; --slate:#96A3AB; --faint:#6C797F;
+    --rule:#2A353B; --rule-soft:#212A2F;
+    --brass:#D6A05E; --brass-soft:#3A2E1D;
+    --river:#7FB4C6; --river-soft:#1C2F36;
+    --oxblood:#D2706E; --oxblood-soft:#38201F;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#101518; --paper:#161D21; --raise:#1C252A;
+  --ink:#E2E7E9; --slate:#96A3AB; --faint:#6C797F;
+  --rule:#2A353B; --rule-soft:#212A2F;
+  --brass:#D6A05E; --brass-soft:#3A2E1D;
+  --river:#7FB4C6; --river-soft:#1C2F36;
+  --oxblood:#D2706E; --oxblood-soft:#38201F;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px -14px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:var(--sans); font-size:15px; line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+:focus-visible{outline:2px solid var(--river); outline-offset:2px; border-radius:3px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- command bar ---------- */
+.bar{
+  position:sticky; top:0; z-index:40; background:var(--paper);
+  border-bottom:1px solid var(--rule); padding:14px 20px 0;
+}
+.bar-top{display:flex; align-items:baseline; gap:16px; flex-wrap:wrap; margin-bottom:12px}
+.wordmark{font-family:var(--serif); font-size:27px; line-height:1; letter-spacing:.01em}
+.wordmark em{font-style:italic; color:var(--brass)}
+.tagline{font-size:12.5px; color:var(--faint); letter-spacing:.02em}
+.spacer{flex:1}
+.themebtn{
+  font:500 11px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase;
+  background:none; border:1px solid var(--rule); color:var(--slate);
+  padding:7px 11px; border-radius:2px; cursor:pointer;
+}
+.themebtn:hover{border-color:var(--brass); color:var(--brass)}
+.themebtn[aria-pressed="true"]{background:var(--brass); border-color:var(--brass); color:#fff}
+:root[data-theme="dark"] .themebtn[aria-pressed="true"],
+:root:not([data-theme="light"]) .themebtn[aria-pressed="true"]{color:#1A1206}
+
+.searchrow{display:flex; gap:10px; align-items:stretch; margin-bottom:12px}
+.searchwrap{position:relative; flex:1; min-width:0}
+#q{
+  width:100%; font-family:var(--sans); font-size:16px; color:var(--ink);
+  background:var(--raise); border:1px solid var(--rule); border-radius:2px;
+  padding:11px 13px 11px 36px;
+}
+#q::placeholder{color:var(--faint)}
+#q:focus{border-color:var(--river); outline:none; box-shadow:0 0 0 3px var(--river-soft)}
+.searchwrap svg{position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--faint)}
+.hits{
+  font:500 11px/1 var(--mono); color:var(--faint); align-self:center;
+  white-space:nowrap; letter-spacing:.06em;
+}
+
+.chips{display:flex; gap:6px; flex-wrap:wrap; padding-bottom:12px}
+.chip{
+  font:500 11px/1 var(--mono); letter-spacing:.07em; text-transform:uppercase;
+  background:transparent; border:1px solid var(--rule); color:var(--slate);
+  padding:7px 10px; border-radius:2px; cursor:pointer; white-space:nowrap;
+}
+.chip:hover{border-color:var(--slate); color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink); border-color:var(--ink); color:var(--ground)}
+.chip .n{opacity:.55; margin-left:5px}
+.chip.facet[aria-pressed="true"]{background:var(--brass); border-color:var(--brass); color:#fff}
+:root[data-theme="dark"] .chip.facet[aria-pressed="true"],
+:root:not([data-theme="light"]) .chip.facet[aria-pressed="true"]{color:#1A1206}
+.facets{display:flex; gap:6px; flex-wrap:wrap; padding-bottom:12px; border-top:1px dashed var(--rule-soft); padding-top:11px}
+.facets:empty{display:none}
+.facetlabel{font:500 10px/22px var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--faint); margin-right:2px}
+
+/* ---------- boards ---------- */
+.boards{display:flex; gap:6px; flex-wrap:wrap; padding:0 20px 14px; background:var(--paper); border-bottom:1px solid var(--rule)}
+.board{
+  font:600 11px/1 var(--mono); letter-spacing:.07em; text-transform:uppercase;
+  background:var(--raise); border:1px solid var(--rule); color:var(--slate);
+  padding:8px 11px; border-radius:2px; cursor:pointer;
+}
+.board:hover{border-color:var(--brass); color:var(--brass)}
+.board[aria-pressed="true"]{background:var(--brass-soft); border-color:var(--brass); color:var(--brass)}
+
+/* ---------- workspace ---------- */
+.work{display:grid; grid-template-columns:minmax(300px,380px) 1fr; gap:0; align-items:start}
+.index{
+  border-right:1px solid var(--rule); min-height:calc(100vh - 190px);
+  max-height:calc(100vh - 190px); overflow-y:auto; background:var(--ground);
+}
+.row{
+  display:grid; grid-template-columns:3px 1fr; gap:0; width:100%; text-align:left;
+  background:none; border:none; border-bottom:1px solid var(--rule-soft);
+  cursor:pointer; font-family:inherit; color:inherit; padding:0;
+}
+.row:hover{background:var(--paper)}
+.row[aria-current="true"]{background:var(--raise)}
+.row[aria-current="true"] .rname{color:var(--river)}
+.stripe{background:var(--rule)}
+.row.crit .stripe{background:var(--oxblood)}
+.row.warn .stripe{background:var(--brass)}
+.row.ok .stripe{background:var(--river)}
+.rbody{padding:11px 14px; min-width:0}
+.rname{font-family:var(--serif); font-size:19px; line-height:1.2; display:block; margin-bottom:3px; text-wrap:balance}
+.rmeta{display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+.kindtag{font:500 9.5px/1 var(--mono); letter-spacing:.11em; text-transform:uppercase; color:var(--faint)}
+.pv{font:400 11.5px/1.4 var(--mono); color:var(--slate)}
+.pv b{font-weight:600; color:var(--ink)}
+.snip{font-size:12.5px; color:var(--slate); margin-top:5px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
+.snip mark, .rname mark{background:var(--brass-soft); color:inherit; padding:0 1px; border-radius:2px}
+.empty{padding:40px 20px; color:var(--faint); text-align:center; font-size:14px}
+
+/* ---------- detail ---------- */
+.detail{
+  padding:28px 34px 80px; max-height:calc(100vh - 190px); overflow-y:auto;
+  background:var(--paper);
+}
+.dhead{border-bottom:1px solid var(--rule); padding-bottom:16px; margin-bottom:20px}
+.dkind{font:600 10px/1 var(--mono); letter-spacing:.14em; text-transform:uppercase; color:var(--brass); margin-bottom:8px}
+h1.dname{font-family:var(--serif); font-weight:400; font-size:42px; line-height:1.05; margin:0 0 14px; text-wrap:balance; letter-spacing:.005em}
+.props{display:flex; gap:6px; flex-wrap:wrap}
+.prop{
+  font:400 11.5px/1 var(--mono); background:var(--raise); border:1px solid var(--rule);
+  border-radius:2px; padding:6px 9px; color:var(--slate); font-variant-numeric:tabular-nums;
+}
+.prop b{font-weight:600; color:var(--ink); margin-left:5px}
+.prop.p-crit{border-color:var(--oxblood); background:var(--oxblood-soft)} .prop.p-crit b{color:var(--oxblood)}
+.prop.p-warn{border-color:var(--brass); background:var(--brass-soft)} .prop.p-warn b{color:var(--brass)}
+.prop.p-ok{border-color:var(--river); background:var(--river-soft)} .prop.p-ok b{color:var(--river)}
+
+.md{max-width:66ch; font-size:15.5px}
+.md h2{font-family:var(--serif); font-weight:400; font-size:26px; line-height:1.15; margin:30px 0 10px; text-wrap:balance}
+.md h3{font:600 13px/1.3 var(--sans); letter-spacing:.05em; text-transform:uppercase; color:var(--slate); margin:24px 0 8px}
+.md p{margin:0 0 13px}
+.md ul{margin:0 0 13px; padding-left:19px} .md li{margin-bottom:5px}
+.md strong{font-weight:600}
+.md em{font-style:italic}
+.md code{font:400 13px var(--mono); background:var(--raise); border:1px solid var(--rule); border-radius:2px; padding:1px 5px}
+.md hr{border:none; border-top:1px solid var(--rule); margin:26px 0}
+.md a.wl{color:var(--river); text-decoration:none; border-bottom:1px solid var(--river-soft); cursor:pointer}
+.md a.wl:hover{border-bottom-color:var(--river); background:var(--river-soft)}
+.md a.dead{color:var(--faint); border-bottom:1px dotted var(--rule); cursor:default}
+.tablewrap{overflow-x:auto; margin:0 0 16px; border:1px solid var(--rule); border-radius:2px; background:var(--raise)}
+.md table{border-collapse:collapse; width:100%; font-size:13.5px}
+.md th{
+  font:600 10px/1 var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--faint);
+  text-align:left; padding:10px 13px; border-bottom:1px solid var(--rule); white-space:nowrap;
+}
+.md td{padding:9px 13px; border-bottom:1px solid var(--rule-soft); vertical-align:top}
+.md tr:last-child td{border-bottom:none}
+
+.cal{border-left:2px solid var(--rule); background:var(--raise); padding:13px 16px; margin:0 0 16px; border-radius:0 2px 2px 0}
+.cal .ct{font:600 10px/1 var(--mono); letter-spacing:.12em; text-transform:uppercase; margin-bottom:7px; display:flex; align-items:center; gap:6px}
+.cal p:last-child{margin-bottom:0}
+.cal-cael{border-left-color:var(--brass); background:var(--brass-soft)} .cal-cael .ct{color:var(--brass)}
+:root.table-mode .cal-cael{display:none}
+.tmnote{
+  display:none; font:400 12px/1.4 var(--sans); color:var(--faint);
+  border:1px dashed var(--rule); border-radius:2px; padding:8px 11px; margin:0 0 16px;
+}
+:root.table-mode .tmnote{display:block}
+.cal-cael .md-in{font-style:italic}
+.cal-question{border-left-color:var(--river); background:var(--river-soft)} .cal-question .ct{color:var(--river)}
+.cal-danger{border-left-color:var(--oxblood); background:var(--oxblood-soft)} .cal-danger .ct{color:var(--oxblood)}
+
+.related{margin-top:34px; padding-top:18px; border-top:1px solid var(--rule)}
+.related h4{font:600 10px/1 var(--mono); letter-spacing:.13em; text-transform:uppercase; color:var(--faint); margin:0 0 11px}
+.rellist{display:flex; gap:6px; flex-wrap:wrap}
+.rellist button{
+  font:400 12.5px var(--sans); background:var(--raise); border:1px solid var(--rule);
+  color:var(--river); padding:5px 10px; border-radius:2px; cursor:pointer;
+}
+.rellist button:hover{border-color:var(--river); background:var(--river-soft)}
+
+.placeholder{color:var(--faint); max-width:52ch; padding-top:8px}
+.placeholder h2{font-family:var(--serif); font-weight:400; font-size:30px; color:var(--ink); margin:0 0 12px}
+.placeholder kbd{
+  font:500 11px var(--mono); background:var(--raise); border:1px solid var(--rule);
+  border-bottom-width:2px; border-radius:3px; padding:2px 6px; color:var(--ink);
+}
+.placeholder ul{padding-left:18px; margin:14px 0 0} .placeholder li{margin-bottom:7px}
+
+/* ---------- board view ---------- */
+.boardview{padding:4px 0 0}
+.boardview h2{font-family:var(--serif); font-weight:400; font-size:32px; margin:0 0 6px; line-height:1.1}
+.boardview .bsub{color:var(--slate); font-size:14px; margin:0 0 22px; max-width:60ch}
+.grp{margin-bottom:26px}
+.grp h3{font:600 10.5px/1 var(--mono); letter-spacing:.13em; text-transform:uppercase; color:var(--brass); margin:0 0 10px; padding-bottom:7px; border-bottom:1px solid var(--rule)}
+
+/* phones: one scrollable strip per control group instead of three wrapped rows,
+   and tap targets that meet the 44px minimum */
+@media (max-width:560px){
+  .bar{padding:10px 14px 0}
+  .boards{padding:0 14px 10px}
+  .tagline{display:none}
+  .wordmark{font-size:22px}
+  .bar-top{gap:10px; margin-bottom:10px}
+  .chips, .boards, .facets{
+    flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none;
+    -webkit-overflow-scrolling:touch; padding-bottom:10px;
+  }
+  .chips::-webkit-scrollbar, .boards::-webkit-scrollbar, .facets::-webkit-scrollbar{display:none}
+  .chip, .board, .themebtn{
+    min-height:44px; display:inline-flex; align-items:center; flex:0 0 auto; padding:0 13px;
+  }
+  .facets{padding-top:9px}
+  .facetlabel{flex:0 0 auto; line-height:44px}
+  #q{padding:13px 13px 13px 36px}   /* 16px font already set: stops iOS zoom-on-focus */
+  .hits{font-size:10px}
+  .detail{padding:18px 16px 60px}
+  .row{min-height:56px}
+  .rellist button{min-height:40px}
+  .backbtn{min-height:44px}
+}
+
+@media (max-width:880px){
+  .work{grid-template-columns:1fr}
+  .index{max-height:none; min-height:0; border-right:none; border-bottom:1px solid var(--rule)}
+  .index.hide-m{display:none}
+  .detail{max-height:none; padding:22px 20px 60px}
+  .backbtn{display:inline-flex!important}
+  h1.dname{font-size:33px}
+}
+.backbtn{
+  display:none; align-items:center; gap:6px; margin-bottom:16px;
+  font:500 11px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase;
+  background:none; border:1px solid var(--rule); color:var(--slate); padding:8px 11px;
+  border-radius:2px; cursor:pointer;
+}
+</style>
+
+<div class="bar">
+  <div class="bar-top">
+    <div class="wordmark">Yartar <em>Vault</em></div>
+    <div class="tagline">104 notes &middot; current through Session 3</div>
+    <div class="spacer"></div>
+    <button class="themebtn" id="tablemode" type="button" aria-pressed="false">Table mode</button>
+    <button class="themebtn" id="theme" type="button">Theme</button>
+  </div>
+  <div class="searchrow">
+    <div class="searchwrap">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+      <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="Search everything &mdash; a name, a place, &ldquo;caravan leader&rdquo;, &ldquo;poison&rdquo;&hellip;">
+    </div>
+    <span class="hits" id="hits"></span>
+  </div>
+  <div class="chips" id="kinds"></div>
+  <div class="facets" id="facets"></div>
+</div>
+
+<div class="boards" id="boards"></div>
+
+<div class="work">
+  <div class="index" id="index"></div>
+  <div class="detail" id="detail"></div>
+</div>
+
+<script>
+const DATA = /*__DATA__*/;
+
+/* ---------- kind config: which properties matter, and in what order ---------- */
+const KINDS = [
+  ["all","Everything"],["thread","Threads"],["npc","People"],["location","Places"],
+  ["faction","Factions"],["item","Items"],["lore","Lore"],["session","Sessions"],
+  ["party","Party"],["dashboard","Boards"]
+];
+const KEYPROPS = {
+  npc:["tier","status","disposition","bound_to","faction","based","species","gender","last_seen","first_seen","aliases","name_confirmed","source","class","subclass"],
+  location:["type","status","danger","access","parent","controlled_by","last_visited","first_seen"],
+  faction:["type","status","threat","disposition","base","leader","members","first_seen","name_confirmed"],
+  item:["type","status","holder","identified","attuned","origin","first_seen"],
+  lore:["type","confidence","source","first_seen"],
+  thread:["type","heat","status","opened","involves"],
+  session:["session","title","pcs","locations","npcs"],
+  party:["species","class","subclass","familiar","status","based","player_character","first_seen","last_seen"],
+  dashboard:["updated"]
+};
+/* two properties shown in the index row, per kind */
+const ROWPROPS = {
+  npc:["tier","status","disposition"], location:["type","danger","access"],
+  faction:["threat","disposition","status"], item:["status","holder","identified"],
+  lore:["confidence","source"], thread:["heat","type"],
+  session:["session"], party:["class","status"], dashboard:[]
+};
+
+const CRIT = new Set(["hostile","deadly","dead","missing","presumed-dead","destroyed","barred","hot","high"]);
+const WARN = new Set(["unknown","watched","risky","cold","damaged","abandoned","restricted","warm","wary","lost","reported","theory","disputed","false"]);
+const OK   = new Set(["ally","friendly","employer","safe","intact","alive","open","held","active","established","true","none"]);
+
+function sev(v){
+  const s = String(v).toLowerCase();
+  if (CRIT.has(s)) return "crit";
+  if (WARN.has(s)) return "warn";
+  if (OK.has(s)) return "ok";
+  return "";
+}
+function rowSev(n){
+  const order = ["crit","warn","ok"];
+  let best = "";
+  for (const k of (ROWPROPS[n.kind]||[])){
+    const s = sev(n.props[k]);
+    if (s && (!best || order.indexOf(s) < order.indexOf(best))) best = s;
+  }
+  return best;
+}
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const flat = v => Array.isArray(v) ? v.map(flat).join(", ") : String(v).replace(/\[\[([^\]|]+)(\|([^\]]+))?\]\]/g, (m,a,b,c)=>c||a.split("/").pop());
+
+const BY_NAME = new Map(DATA.map(n => [n.name, n]));
+
+/* ---------- state ---------- */
+let kind = "all", query = "", facet = null, current = null, board = null;
+
+/* ---------- search ---------- */
+function haystack(n){
+  if (n._h) return n._h;
+  const props = Object.entries(n.props).map(([k,v]) => k + " " + flat(v)).join(" ");
+  n._h = (n.name + " " + n.kind + " " + props + " " + n.body).toLowerCase();
+  return n._h;
+}
+function terms(){ return query.toLowerCase().split(/\s+/).filter(Boolean); }
+function matches(n){
+  const t = terms();
+  if (!t.length) return true;
+  const h = haystack(n);
+  return t.every(w => h.includes(w));
+}
+function filtered(){
+  return DATA.filter(n => {
+    if (kind !== "all" && n.kind !== kind) return false;
+    if (facet && flat(n.props[facet.k] ?? "").toLowerCase() !== facet.v.toLowerCase()) return false;
+    return matches(n);
+  });
+}
+function hl(text){
+  const t = terms();
+  let out = esc(text);
+  for (const w of t){
+    if (w.length < 2) continue;
+    out = out.replace(new RegExp("(" + w.replace(/[.*+?^${}()|[\]\\]/g,"\\$&") + ")","gi"), "<mark>$1</mark>");
+  }
+  return out;
+}
+function snippet(n){
+  const t = terms();
+  const plain = n.body.replace(/[#*>`\[\]|-]/g," ").replace(/\s+/g," ").trim();
+  if (!t.length) return plain.slice(0,120);
+  const i = plain.toLowerCase().indexOf(t[0]);
+  if (i < 0) return plain.slice(0,120);
+  return (i > 40 ? "&hellip;" : "") + plain.slice(Math.max(0,i-40), Math.max(0,i-40)+150);
+}
+
+/* ---------- markdown ---------- */
+function inline(s){
+  return esc(s)
+    .replace(/\[\[([^\]|]+?)(?:\|([^\]]+?))?\]\]/g, (m,tgt,alias) => {
+      const clean = tgt.split("/").pop().trim();
+      const label = alias || clean;
+      return BY_NAME.has(clean)
+        ? '<a class="wl" data-go="' + esc(clean) + '">' + esc(label) + "</a>"
+        : '<a class="dead" title="not in this vault">' + esc(label) + "</a>";
+    })
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>")
+    .replace(/`([^`]+)`/g, "<code>$1</code>");
+}
+function md(src){
+  const lines = src.split("\n");
+  let out = "", i = 0;
+  const CT = {cael:"Cael", question:"Open question", danger:"Live threat", info:"Note"};
+  while (i < lines.length){
+    const L = lines[i];
+    if (!L.trim()){ i++; continue; }
+    let m;
+    if ((m = L.match(/^>\s*\[!(\w+)\]\s*(.*)$/))){
+      const t = m[1].toLowerCase();
+      let buf = m[2] ? [m[2]] : [];
+      i++;
+      while (i < lines.length && /^>/.test(lines[i])){ buf.push(lines[i].replace(/^>\s?/,"")); i++; }
+      const inner = buf.join("\n").trim();
+      out += '<div class="cal cal-' + esc(t) + '"><div class="ct">' + esc(CT[t] || t) +
+             '</div><div class="md-in">' + (inner ? md(inner) : "") + "</div></div>";
+      continue;
+    }
+    if ((m = L.match(/^(#{2,4})\s+(.*)$/))){
+      const lv = Math.min(m[1].length, 3);
+      out += "<h" + lv + ">" + inline(m[2]) + "</h" + lv + ">"; i++; continue;
+    }
+    if (/^\s*[-*]\s+/.test(L)){
+      let items = [];
+      while (i < lines.length && /^\s*[-*]\s+/.test(lines[i])){ items.push(lines[i].replace(/^\s*[-*]\s+/,"")); i++; }
+      out += "<ul>" + items.map(x => "<li>" + inline(x) + "</li>").join("") + "</ul>"; continue;
+    }
+    if (/^\s*\d+\.\s+/.test(L)){
+      let items = [];
+      while (i < lines.length && /^\s*\d+\.\s+/.test(lines[i])){ items.push(lines[i].replace(/^\s*\d+\.\s+/,"")); i++; }
+      out += "<ul>" + items.map(x => "<li>" + inline(x) + "</li>").join("") + "</ul>"; continue;
+    }
+    if (/^\|/.test(L) && i + 1 < lines.length && /^\|[\s:|-]+\|/.test(lines[i+1])){
+      const cells = r => r.replace(/^\||\|$/g,"").split(/(?<!\\)\|/).map(c => c.replace(/\\\|/g,"|").trim());
+      const head = cells(L); i += 2;
+      let rows = [];
+      while (i < lines.length && /^\|/.test(lines[i])){ rows.push(cells(lines[i])); i++; }
+      out += '<div class="tablewrap"><table><thead><tr>' + head.map(h => "<th>" + inline(h) + "</th>").join("") +
+             "</tr></thead><tbody>" + rows.map(r => "<tr>" + r.map(c => "<td>" + inline(c) + "</td>").join("") + "</tr>").join("") +
+             "</tbody></table></div>";
+      continue;
+    }
+    if (/^---+$/.test(L.trim())){ out += "<hr>"; i++; continue; }
+    let para = [];
+    while (i < lines.length && lines[i].trim() && !/^[#>|]|^\s*[-*]\s|^\s*\d+\.\s|^---+$/.test(lines[i])){ para.push(lines[i]); i++; }
+    if (para.length) out += "<p>" + inline(para.join(" ")) + "</p>";
+  }
+  return out;
+}
+
+/* ---------- render: chips ---------- */
+function renderKinds(){
+  document.getElementById("kinds").innerHTML = KINDS.map(([k,label]) => {
+    const n = k === "all" ? DATA.length : DATA.filter(d => d.kind === k).length;
+    if (!n) return "";
+    return '<button class="chip" type="button" data-kind="' + k + '" aria-pressed="' + (kind===k) + '">' +
+           esc(label) + '<span class="n">' + n + "</span></button>";
+  }).join("");
+}
+const FACETABLE = {npc:["tier","status","disposition"], location:["type","danger","access"],
+  faction:["threat","disposition"], item:["type","status","identified"],
+  lore:["confidence"], thread:["heat","type"], party:[], session:[], dashboard:[]};
+function renderFacets(){
+  const el = document.getElementById("facets");
+  const keys = FACETABLE[kind] || [];
+  if (!keys.length){ el.innerHTML = ""; return; }
+  let html = "";
+  for (const k of keys){
+    const vals = [...new Set(DATA.filter(d => d.kind === kind && d.props[k] != null).map(d => flat(d.props[k])))].sort();
+    if (vals.length < 2) continue;
+    html += '<span class="facetlabel">' + esc(k.replace(/_/g," ")) + "</span>";
+    html += vals.map(v => {
+      const on = facet && facet.k === k && facet.v === v;
+      return '<button class="chip facet" type="button" data-fk="' + esc(k) + '" data-fv="' + esc(v) +
+             '" aria-pressed="' + on + '">' + esc(v) + "</button>";
+    }).join("");
+  }
+  el.innerHTML = html;
+}
+
+/* ---------- render: index ---------- */
+function renderIndex(){
+  const list = filtered();
+  document.getElementById("hits").textContent = list.length + (list.length === 1 ? " result" : " results");
+  const el = document.getElementById("index");
+  if (!list.length){
+    el.innerHTML = '<div class="empty">Nothing matches that.<br>Try a shorter word, or clear the filters.</div>';
+    return;
+  }
+  const order = {thread:0, npc:1, party:2, faction:3, location:4, item:5, lore:6, session:7, dashboard:8};
+  const t = terms();
+  if (t.length){
+    /* a lookup tool ranks by how well the NAME matches, not by category */
+    const score = n => {
+      const nm = n.name.toLowerCase();
+      const joined = t.join(" ");
+      let s = 0;
+      if (nm === joined) s += 1000;
+      else if (nm.startsWith(joined)) s += 600;
+      else if (nm.includes(joined)) s += 400;
+      if (t.every(w => nm.includes(w))) s += 200;
+      else if (t.some(w => nm.includes(w))) s += 90;
+      const props = Object.values(n.props).map(flat).join(" ").toLowerCase();
+      if (t.some(w => props.includes(w))) s += 40;
+      /* a shorter name containing the query is the more precise hit:
+         "The Professor" beats "The Professor's stability" */
+      s += Math.max(0, 60 - nm.length);
+      s += Math.max(0, 20 - (order[n.kind] ?? 9));
+      return s;
+    };
+    list.sort((a,b) => score(b)-score(a) || a.name.localeCompare(b.name));
+  } else {
+    list.sort((a,b) => (order[a.kind]-order[b.kind]) || a.name.localeCompare(b.name));
+  }
+  el.innerHTML = list.map(n => {
+    const props = (ROWPROPS[n.kind]||[]).filter(k => n.props[k] != null)
+      .map(k => '<span class="pv">' + esc(k.replace(/_/g," ")) + " <b>" + esc(flat(n.props[k])) + "</b></span>").join("");
+    return '<button class="row ' + rowSev(n) + '" type="button" data-go="' + esc(n.name) + '" aria-current="' + (current===n.name) + '">' +
+      '<span class="stripe"></span><span class="rbody">' +
+      '<span class="rname">' + hl(n.name) + "</span>" +
+      '<span class="rmeta"><span class="kindtag">' + esc(n.kind) + "</span>" + props + "</span>" +
+      (query ? '<span class="snip">' + hl(snippet(n).replace(/&hellip;/g,"…")) + "</span>" : "") +
+      "</span></button>";
+  }).join("");
+}
+
+/* ---------- render: detail ---------- */
+function renderDetail(){
+  const el = document.getElementById("detail");
+  if (board){ el.innerHTML = renderBoard(board); el.scrollTop = 0; return; }
+  const n = current && BY_NAME.get(current);
+  if (!n){
+    el.innerHTML = '<div class="placeholder"><h2>What do you need?</h2>' +
+      "<p>Type any name, place, faction or object into the search bar. Everything in the vault is indexed &mdash; " +
+      "properties and full note text alike, so &ldquo;caravan&rdquo; finds Dell and &ldquo;griffon&rdquo; finds Vetel Kraye.</p>" +
+      "<ul>" +
+      "<li>The <strong>Boards</strong> above answer the standing questions in one click &mdash; inventory, hot threads, who is missing.</li>" +
+      "<li>Coloured stripes flag state at a glance: <strong>red</strong> hostile, dead or deadly &middot; <strong>brass</strong> unknown or watched &middot; <strong>blue</strong> allied or safe.</li>" +
+      "<li>Every <span style=\"color:var(--river)\">linked name</span> inside a note is clickable.</li>" +
+      "<li>Press <kbd>/</kbd> to jump to search, <kbd>Esc</kbd> to clear it.</li>" +
+      "</ul></div>";
+    return;
+  }
+  const keys = KEYPROPS[n.kind] || Object.keys(n.props);
+  const seen = new Set(keys);
+  const allKeys = keys.filter(k => n.props[k] != null).concat(Object.keys(n.props).filter(k => !seen.has(k)));
+  const props = allKeys.map(k => {
+    const v = flat(n.props[k]);
+    const s = sev(v);
+    return '<span class="prop' + (s ? " p-" + s : "") + '">' + esc(k.replace(/_/g," ")) + " <b>" + esc(v) + "</b></span>";
+  }).join("");
+  const back = BY_NAME.has(n.name) ? DATA.filter(d => d.links.includes(n.name)).map(d => d.name) : [];
+  const rel = [...new Set(n.links.concat(back))];
+  el.innerHTML =
+    '<button class="backbtn" type="button" id="back">&larr; Index</button>' +
+    '<div class="dhead"><div class="dkind">' + esc(n.kind) + "</div>" +
+    '<h1 class="dname">' + esc(n.name) + "</h1>" +
+    '<div class="props">' + props + "</div></div>" +
+    '<div class="tmnote">Table mode is on. Cael\'s margin notes are hidden &mdash; his opinions, and the handful of things he has not said out loud.</div>' +
+    '<div class="md">' + md(n.body) + "</div>" +
+    (rel.length ? '<div class="related"><h4>Connected</h4><div class="rellist">' +
+      rel.map(r => "<button type=\"button\" data-go=\"" + esc(r) + "\">" + esc(r) + "</button>").join("") +
+      "</div></div>" : "");
+  el.scrollTop = 0;
+}
+
+/* ---------- boards ---------- */
+const BOARDS = [
+  ["inventory","Party Inventory"],["hot","Hot Threads"],["missing","Unaccounted For"],
+  ["standing","Who Stands Where"],["danger","Dangerous Ground"],["belief","On Whose Word"]
+];
+function tbl(head, rows){
+  return '<div class="tablewrap"><table><thead><tr>' + head.map(h => "<th>" + esc(h) + "</th>").join("") +
+    "</tr></thead><tbody>" + rows.map(r => "<tr>" + r.map(c => "<td>" + c + "</td>").join("") + "</tr>").join("") +
+    "</tbody></table></div>";
+}
+const lk = n => BY_NAME.has(n) ? '<a class="wl" data-go="' + esc(n) + '">' + esc(n) + "</a>" : esc(n);
+const pill = v => { const s = sev(v); return '<span class="prop' + (s?" p-"+s:"") + '"><b>' + esc(v) + "</b></span>"; };
+
+function renderBoard(id){
+  const items = DATA.filter(d => d.kind === "item");
+  const npcs = DATA.filter(d => d.kind === "npc");
+  const H = (t,s,inner) => '<div class="boardview"><h2>' + t + '</h2><p class="bsub">' + s + "</p>" + inner + "</div>";
+
+  if (id === "inventory"){
+    const held = items.filter(i => flat(i.props.status||"") === "held");
+    const groups = {};
+    held.forEach(i => { const h = flat(i.props.holder || "unassigned"); (groups[h] = groups[h] || []).push(i); });
+    let out = "";
+    for (const h of Object.keys(groups).sort()){
+      out += '<div class="grp"><h3>' + esc(h) + "</h3>" + tbl(["Item","Type","Identified","From"],
+        groups[h].map(i => [lk(i.name), esc(flat(i.props.type||"—")),
+          pill(flat(i.props.identified ?? "unknown")), i.props.origin ? lk(flat(i.props.origin)) : "—"])) + "</div>";
+    }
+    const other = items.filter(i => flat(i.props.status||"") !== "held");
+    if (other.length) out += '<div class="grp"><h3>Not in our hands</h3>' + tbl(["Item","Status","Type"],
+      other.map(i => [lk(i.name), pill(flat(i.props.status||"?")), esc(flat(i.props.type||"—"))])) + "</div>";
+    return H("Party Inventory", "Everything the party is carrying, by holder &mdash; plus what is out there and not theirs.", out);
+  }
+  if (id === "hot"){
+    const th = DATA.filter(d => d.kind === "thread");
+    const heats = ["hot","warm","cold"];
+    let out = "";
+    for (const h of heats){
+      const g = th.filter(t => flat(t.props.heat||"") === h);
+      if (!g.length) continue;
+      out += '<div class="grp"><h3>' + esc(h) + "</h3>" + tbl(["Thread","Kind","Opened"],
+        g.map(t => [lk(t.name), esc(flat(t.props.type||"—")), esc(flat(t.props.opened||"—"))])) + "</div>";
+    }
+    return H("Open Threads", "Everything unresolved, by how much it is likely to hurt.", out);
+  }
+  if (id === "missing"){
+    const g = npcs.filter(n => ["unknown","missing","presumed-dead"].includes(flat(n.props.status||"")));
+    return H("Unaccounted For", "People whose whereabouts or fate the party does not know.",
+      tbl(["Name","Status","Tier","Last seen","Last known"],
+        g.map(n => [lk(n.name), pill(flat(n.props.status)), esc(flat(n.props.tier||"—")),
+          esc(flat(n.props.last_seen||"—")), n.props.based ? lk(flat(n.props.based)) : "—"])));
+  }
+  if (id === "standing"){
+    const f = DATA.filter(d => d.kind === "faction");
+    let out = '<div class="grp"><h3>Factions</h3>' + tbl(["Faction","Toward us","Threat","Leader","Base"],
+      f.map(x => [lk(x.name), pill(flat(x.props.disposition||"unknown")), pill(flat(x.props.threat||"unknown")),
+        x.props.leader ? lk(flat(x.props.leader)) : "—", x.props.base ? lk(flat(x.props.base)) : "—"])) + "</div>";
+    const allies = npcs.filter(n => ["ally","friendly","employer"].includes(flat(n.props.disposition||"")));
+    const foes = npcs.filter(n => flat(n.props.disposition||"") === "hostile");
+    out += '<div class="grp"><h3>On our side</h3>' + tbl(["Name","Standing","Where","Faction"],
+      allies.map(n => [lk(n.name), pill(flat(n.props.disposition)), n.props.based ? lk(flat(n.props.based)) : "—",
+        n.props.faction ? lk(flat(n.props.faction)) : "—"])) + "</div>";
+    out += '<div class="grp"><h3>Against us</h3>' + tbl(["Name","Faction","Where","Last seen"],
+      foes.map(n => [lk(n.name), n.props.faction ? lk(flat(n.props.faction)) : "—",
+        n.props.based ? lk(flat(n.props.based)) : "—", esc(flat(n.props.last_seen||"—"))])) + "</div>";
+    return H("Who Stands Where", "Factions and people, sorted by which way they are pointed.", out);
+  }
+  if (id === "danger"){
+    const g = DATA.filter(d => d.kind === "location" &&
+      ["risky","deadly","watched"].includes(flat(d.props.danger||"")));
+    return H("Dangerous Ground", "Where it is risky to go, and why. A place can be intact, open and still lethal &mdash; the building is not the threat, the company is.",
+      tbl(["Place","Danger","Status","Access","Held by"],
+        g.map(n => [lk(n.name), pill(flat(n.props.danger)), esc(flat(n.props.status||"—")),
+          pill(flat(n.props.access||"unknown")), n.props.controlled_by ? lk(flat(n.props.controlled_by)) : "—"])));
+  }
+  if (id === "belief"){
+    const g = DATA.filter(d => d.props.confidence || d.props.source);
+    return H("On Whose Word", "What the party believes, and who told them. Half of what they know came from an assassin, a prisoner and a stranger.",
+      tbl(["Note","Confidence","Source","Kind"],
+        g.map(n => [lk(n.name), pill(flat(n.props.confidence||"—")),
+          n.props.source ? lk(flat(n.props.source)) : "—", esc(n.kind)])));
+  }
+  return "";
+}
+function renderBoards(){
+  document.getElementById("boards").innerHTML = BOARDS.map(([id,label]) =>
+    '<button class="board" type="button" data-board="' + id + '" aria-pressed="' + (board===id) + '">' + esc(label) + "</button>"
+  ).join("");
+}
+
+/* ---------- events ---------- */
+function go(name){
+  current = name; board = null;
+  renderBoards(); renderIndex(); renderDetail();
+  if (window.innerWidth <= 880) document.getElementById("index").classList.add("hide-m");
+}
+document.addEventListener("click", e => {
+  const g = e.target.closest("[data-go]");
+  if (g){ go(g.dataset.go); return; }
+  const k = e.target.closest("[data-kind]");
+  if (k){ kind = k.dataset.kind; facet = null; renderKinds(); renderFacets(); renderIndex(); return; }
+  const f = e.target.closest("[data-fk]");
+  if (f){
+    const same = facet && facet.k === f.dataset.fk && facet.v === f.dataset.fv;
+    facet = same ? null : {k:f.dataset.fk, v:f.dataset.fv};
+    renderFacets(); renderIndex(); return;
+  }
+  const b = e.target.closest("[data-board]");
+  if (b){
+    board = board === b.dataset.board ? null : b.dataset.board;
+    current = null; renderBoards(); renderDetail();
+    if (board && window.innerWidth <= 880) document.getElementById("index").classList.add("hide-m");
+    return;
+  }
+  if (e.target.closest("#back")){ document.getElementById("index").classList.remove("hide-m"); return; }
+  const tm = e.target.closest("#tablemode");
+  if (tm){
+    const on = document.documentElement.classList.toggle("table-mode");
+    tm.setAttribute("aria-pressed", String(on));
+    try { localStorage.setItem("yartar-table-mode", on ? "1" : "0"); } catch (err) {}
+    return;
+  }
+  if (e.target.closest("#theme")){
+    const root = document.documentElement;
+    const dark = root.getAttribute("data-theme") === "dark" ||
+      (!root.getAttribute("data-theme") && matchMedia("(prefers-color-scheme:dark)").matches);
+    root.setAttribute("data-theme", dark ? "light" : "dark");
+    return;
+  }
+});
+const qEl = document.getElementById("q");
+qEl.addEventListener("input", () => {
+  query = qEl.value.trim();
+  if (query && board){ board = null; renderBoards(); renderDetail(); }
+  document.getElementById("index").classList.remove("hide-m");
+  renderIndex();
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "/" && document.activeElement !== qEl){ e.preventDefault(); qEl.focus(); qEl.select(); }
+  if (e.key === "Escape" && document.activeElement === qEl){ qEl.value = ""; query = ""; renderIndex(); }
+});
+
+try {
+  if (localStorage.getItem("yartar-table-mode") === "1"){
+    document.documentElement.classList.add("table-mode");
+    document.getElementById("tablemode").setAttribute("aria-pressed","true");
+  }
+} catch (err) {}
+
+renderKinds(); renderFacets(); renderBoards(); renderIndex(); renderDetail();
+</script>
