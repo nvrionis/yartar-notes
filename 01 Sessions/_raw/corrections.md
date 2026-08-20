@@ -14,5 +14,12 @@ Delete each line once it has been folded in.
 
 ## Open
 
-- Vaelis and Lorien both have familiars. Not recorded anywhere. Names, types, and whether either is a Pact of the Chain familiar?
-- Items the party carries that are not in the ledger — which?
+- **Items the party carries that are not in the ledger.** You mentioned there are some. List them badly — name, roughly who has it, magical or not — and they get notes and `holder` properties.
+- **Is Martis a Pact of the Chain familiar?** Recorded as probable, not confirmed. See [[Naming and Uncertainty]].
+- **"shipnx of wonder"** was read as *sphinx of wonder*. Say if that is wrong.
+
+## Done
+
+- Familiars recorded: [[Martis]] (sphinx of wonder, [[Vaelis]]) and [[Cookie]] (owl, [[Lorien]]). *2026-08-20*
+- The Harpies Lyras corrected from "public identity" back to a one-night joke name. *2026-08-20*
+- Loot ledger reduced to coin and common gear; `holder` on item notes is now the source of truth. *2026-08-20*
