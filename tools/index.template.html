@@ -99,7 +99,9 @@ body{
 
 /* ---------- boards ---------- */
 .boards{display:flex; gap:6px; flex-wrap:wrap; padding:11px 0 12px; border-top:1px dashed var(--rule-soft)}
-.filterbtn{display:none}
+.menubtn{display:none}
+.msec{display:contents}
+.mhead,.mhint,.mrow,.msec-display{display:none}
 .board{
   font:600 11px/1 var(--mono); letter-spacing:.07em; text-transform:uppercase;
   background:var(--raise); border:1px solid var(--rule); color:var(--slate);
@@ -220,36 +222,62 @@ h1.dname{font-family:var(--serif); font-weight:400; font-size:42px; line-height:
    - tapping a result opens the note full screen with its own back bar
    --------------------------------------------------------------------- */
 @media (max-width:700px){
-  .bar{position:static; padding:12px 14px 0}
-  .bar-top{gap:10px; margin-bottom:11px}
+  .bar{position:static; padding:11px 12px 0}
+  .bar-top{gap:10px; margin-bottom:10px}
   .tagline{display:none}
-  .wordmark{font-size:21px}
+  .wordmark{font-size:20px}
+  .bar-top .themebtn{display:none}     /* moved into the menu */
 
+  /* the row that broke: it must wrap, or flex-basis on the count
+     crushes the input down to nothing */
   .searchrow{
-    position:sticky; top:0; z-index:60; margin:0 -14px 0; padding:9px 14px;
-    background:var(--paper); border-bottom:1px solid var(--rule); gap:8px;
+    position:sticky; top:0; z-index:60; margin:0 -14px 0; padding:9px 12px;
+    background:var(--paper); border-bottom:1px solid var(--rule);
+    gap:8px; flex-wrap:wrap; align-items:center;
   }
+  .searchwrap{flex:1 1 0; min-width:150px}
   #q{padding:12px 12px 12px 34px}      /* 16px font stops iOS zoom-on-focus */
-  .hits{order:3; flex-basis:100%; text-align:right; font-size:10px; padding-top:2px}
+  .hits{order:3; flex:1 0 100%; text-align:right; font-size:10px; padding-top:1px}
 
-  .filterbtn{
-    display:inline-flex; align-items:center; gap:5px; flex:0 0 auto; min-height:46px; padding:0 13px;
-    font:600 11px/1 var(--mono); letter-spacing:.07em; text-transform:uppercase;
-    background:var(--raise); border:1px solid var(--rule); color:var(--slate);
-    border-radius:2px; cursor:pointer;
+  .menubtn{
+    display:inline-flex; align-items:center; justify-content:center; position:relative;
+    flex:0 0 auto; width:46px; height:46px; padding:0;
+    background:var(--raise); border:1px solid var(--rule); border-radius:2px; cursor:pointer;
   }
-  .filterbtn[aria-expanded="true"]{background:var(--ink); border-color:var(--ink); color:var(--ground)}
+  .menubtn .bars, .menubtn .bars::before, .menubtn .bars::after{
+    content:""; display:block; width:17px; height:2px; background:var(--slate); border-radius:2px;
+  }
+  .menubtn .bars{position:relative}
+  .menubtn .bars::before{position:absolute; top:-6px}
+  .menubtn .bars::after{position:absolute; top:6px}
+  .menubtn[aria-expanded="true"]{background:var(--ink); border-color:var(--ink)}
+  .menubtn[aria-expanded="true"] .bars,
+  .menubtn[aria-expanded="true"] .bars::before,
+  .menubtn[aria-expanded="true"] .bars::after{background:var(--ground)}
   #fcount:not(:empty){
-    display:inline-flex; align-items:center; justify-content:center; min-width:17px; height:17px;
-    padding:0 4px; border-radius:9px; background:var(--brass); color:#fff; font-size:9.5px;
+    position:absolute; top:-6px; right:-6px;
+    display:inline-flex; align-items:center; justify-content:center; min-width:18px; height:18px;
+    padding:0 4px; border-radius:9px; background:var(--brass); color:#fff;
+    font:600 10px/1 var(--mono);
   }
 
-  /* the sheet */
-  #controls{display:none; padding-bottom:4px}
+  /* the menu */
+  #controls{display:none; padding:4px 0 8px}
   :root.filters-open #controls{display:block}
-  .chips,.facets,.boards{flex-wrap:wrap; padding-bottom:10px}
+  .msec{display:block; padding:12px 0; border-bottom:1px solid var(--rule-soft)}
+  .msec:last-child{border-bottom:none}
+  .mhead{
+    display:block; margin:0 0 9px;
+    font:600 10px/1 var(--mono); letter-spacing:.14em; text-transform:uppercase; color:var(--brass);
+  }
+  .mrow{display:flex; gap:6px; flex-wrap:wrap}
+  .msec-display{display:block}
+  .mhint{display:block; margin:10px 0 0; font-size:12.5px; line-height:1.5; color:var(--faint)}
+  .chips,.facets,.boards{flex-wrap:wrap; padding:0}
+  .boards{border-top:none}
+  .facets{border-top:none; padding-top:8px}
   .chip,.board{min-height:44px; display:inline-flex; align-items:center; padding:0 13px}
-  .themebtn{min-height:44px; display:inline-flex; align-items:center; padding:0 12px}
+  .themebtn{min-height:44px; display:inline-flex; align-items:center; padding:0 14px}
   .facetlabel{line-height:44px}
 
   /* list */
@@ -282,6 +310,7 @@ h1.dname{font-family:var(--serif); font-weight:400; font-size:42px; line-height:
     background:none; border:1px solid var(--rule); border-radius:2px; color:var(--slate); cursor:pointer;
   }
   :root.table-mode .detailbar .tm{background:var(--brass); border-color:var(--brass); color:#fff}
+  .detailbar .tm::after{content:" view"}
   .dhead,.md,.related,.tmnote,.boardview,.placeholder{padding-left:16px; padding-right:16px}
   h1.dname{font-size:31px}
   .md{font-size:16px}
@@ -303,21 +332,28 @@ h1.dname{font-family:var(--serif); font-weight:400; font-size:42px; line-height:
     <div class="wordmark">Yartar <em>Vault</em></div>
     <div class="tagline">104 notes &middot; current through Session 3</div>
     <div class="spacer"></div>
-    <button class="themebtn" id="tablemode" type="button" aria-pressed="false">Table mode</button>
+    <button class="themebtn" id="tablemode" type="button" aria-pressed="false" title="Hides Cael's margin notes">Player view</button>
     <button class="themebtn" id="theme" type="button">Theme</button>
   </div>
   <div class="searchrow">
+    <button class="menubtn" id="menubtn" type="button" aria-expanded="false" aria-label="Open menu"><span class="bars"></span><span id="fcount"></span></button>
     <div class="searchwrap">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
       <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="Search everything&hellip;">
     </div>
-    <button class="filterbtn" id="filterbtn" type="button" aria-expanded="false">Filters<span id="fcount"></span></button>
     <span class="hits" id="hits"></span>
   </div>
   <div id="controls">
-    <div class="chips" id="kinds"></div>
-    <div class="facets" id="facets"></div>
-    <div class="boards" id="boards"></div>
+    <div class="msec"><h4 class="mhead">Boards</h4><div class="boards" id="boards"></div></div>
+    <div class="msec"><h4 class="mhead">Filter</h4><div class="chips" id="kinds"></div><div class="facets" id="facets"></div></div>
+    <div class="msec msec-display">
+      <h4 class="mhead">Display</h4>
+      <div class="mrow">
+        <button class="themebtn" id="theme-m" type="button">Theme</button>
+        <button class="themebtn" id="playerview-m" type="button" aria-pressed="false">Player view</button>
+      </div>
+      <p class="mhint">Player view hides Cael&rsquo;s margin notes &mdash; his opinions, and the handful of things he has not said out loud. Turn it on before you pass the phone round the table.</p>
+    </div>
   </div>
 </div>
 
@@ -580,7 +616,7 @@ function detailBar(title){
   return '<div class="detailbar">' +
     '<button class="bk" type="button" id="back" aria-label="Back to the index">&larr;</button>' +
     '<span class="bt">' + esc(title) + "</span>" +
-    '<button class="tm" type="button" id="tablemode2">Table</button></div>';
+    '<button class="tm" type="button" id="tablemode2" aria-label="Toggle player view">Player</button></div>';
 }
 function renderDetail(){
   const el = document.getElementById("detail");
@@ -616,7 +652,7 @@ function renderDetail(){
     '<div class="dhead"><div class="dkind">' + esc(n.kind) + "</div>" +
     '<h1 class="dname">' + esc(n.name) + "</h1>" +
     '<div class="props">' + props + "</div></div>" +
-    '<div class="tmnote">Table mode is on. Cael\'s margin notes are hidden &mdash; his opinions, and the handful of things he has not said out loud.</div>' +
+    '<div class="tmnote">Player view is on. Cael\'s margin notes are hidden &mdash; his opinions, and the handful of things he has not said out loud.</div>' +
     '<div class="md">' + md(n.body) + "</div>" +
     (rel.length ? '<div class="related"><h4>Connected</h4><div class="rellist">' +
       rel.map(r => "<button type=\"button\" data-go=\"" + esc(r) + "\">" + esc(r) + "</button>").join("") +
@@ -720,7 +756,7 @@ function enterDetail(){
   if (isPhone()){
     document.documentElement.classList.add("viewing");
     document.documentElement.classList.remove("filters-open");
-    document.getElementById("filterbtn").setAttribute("aria-expanded","false");
+    document.getElementById("menubtn").setAttribute("aria-expanded","false");
     window.scrollTo(0,0);
   } else if (window.innerWidth <= 880){
     document.getElementById("index").classList.add("hide-m");
@@ -754,19 +790,19 @@ document.addEventListener("click", e => {
     return;
   }
   if (e.target.closest("#back")){ leaveDetail(); return; }
-  const fb = e.target.closest("#filterbtn");
+  const fb = e.target.closest("#menubtn");
   if (fb){
     const open = document.documentElement.classList.toggle("filters-open");
     fb.setAttribute("aria-expanded", String(open));
     return;
   }
-  if (e.target.closest("#tablemode") || e.target.closest("#tablemode2")){
+  if (e.target.closest("#tablemode") || e.target.closest("#tablemode2") || e.target.closest("#playerview-m")){
     const on = document.documentElement.classList.toggle("table-mode");
-    document.getElementById("tablemode").setAttribute("aria-pressed", String(on));
+    syncPlayerView(on);
     try { localStorage.setItem("yartar-table-mode", on ? "1" : "0"); } catch (err) {}
     return;
   }
-  if (e.target.closest("#theme")){
+  if (e.target.closest("#theme") || e.target.closest("#theme-m")){
     const root = document.documentElement;
     const dark = root.getAttribute("data-theme") === "dark" ||
       (!root.getAttribute("data-theme") && matchMedia("(prefers-color-scheme:dark)").matches);
@@ -781,6 +817,12 @@ qEl.addEventListener("input", () => {
   if (query) leaveDetail();
   renderIndex();
 });
+function syncPlayerView(on){
+  ["tablemode","playerview-m"].forEach(id => {
+    const b = document.getElementById(id);
+    if (b) b.setAttribute("aria-pressed", String(on));
+  });
+}
 function renderFilterCount(){
   const n = (kind !== "all" ? 1 : 0) + (facet ? 1 : 0);
   const el = document.getElementById("fcount");
@@ -794,7 +836,7 @@ document.addEventListener("keydown", e => {
 try {
   if (localStorage.getItem("yartar-table-mode") === "1"){
     document.documentElement.classList.add("table-mode");
-    document.getElementById("tablemode").setAttribute("aria-pressed","true");
+    syncPlayerView(true);
   }
 } catch (err) {}
 
