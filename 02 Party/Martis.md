@@ -8,8 +8,6 @@ bound_to: "[[Vaelis]]"
 ---
 # Martis
 
-[[Vaelis]]'s familiar, a **sphinx of wonder**.
-
-Probably summoned through Pact of the Chain — **not confirmed**. See [[Naming and Uncertainty]].
+[[Vaelis]]'s familiar, a **sphinx of wonder**, summoned through **Pact of the Chain**.
 
 Which session Martis first appeared in is not established in the notes.

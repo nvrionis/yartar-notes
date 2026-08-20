@@ -14,12 +14,12 @@ Delete each line once it has been folded in.
 
 ## Open
 
-- **Items the party carries that are not in the ledger.** You mentioned there are some. List them badly — name, roughly who has it, magical or not — and they get notes and `holder` properties.
-- **Is Martis a Pact of the Chain familiar?** Recorded as probable, not confirmed. See [[Naming and Uncertainty]].
-- **"shipnx of wonder"** was read as *sphinx of wonder*. Say if that is wrong.
+*Nothing.*
 
 ## Done
 
 - Familiars recorded: [[Martis]] (sphinx of wonder, [[Vaelis]]) and [[Cookie]] (owl, [[Lorien]]). *2026-08-20*
+- **Martis confirmed** as a sphinx of wonder and a Pact of the Chain familiar. Removed from [[Naming and Uncertainty]]; [[Vaelis]] now carries `pact: chain`. *2026-08-20*
+- **No missing items.** What the party carries beyond the noted pieces is the party chest — coin and common loot — which is what [[Party Loot Ledger]] holds. *2026-08-20*
 - The Harpies Lyras corrected from "public identity" back to a one-night joke name. *2026-08-20*
 - Loot ledger reduced to coin and common gear; `holder` on item notes is now the source of truth. *2026-08-20*
