@@ -49,7 +49,7 @@ The recommendation: **[Quartz v4](https://quartz.jzhao.xyz)**. It builds a stati
 
 Two things to sort before publishing:
 
-1. **`_Restricted` must not ship.** Add it to Quartz's ignore patterns. If the site is public, treat that folder as if it were a private repo.
+1. **The repo is already the filter.** Anything listed in `.gitignore` never reaches GitHub, so it cannot reach a site built from GitHub either. Keep that one list as the boundary rather than maintaining a second one in Quartz.
 2. Same for anything under `08 Templates` — it will publish as empty pages otherwise.
 
 Obsidian Publish is the paid alternative and needs no build step, but it costs monthly and gives you less control over what is excluded.

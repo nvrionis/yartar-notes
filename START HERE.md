@@ -52,7 +52,3 @@ You do not maintain this vault by hand. You drop rough bullets into `01 Sessions
 - [[Promises & Debts]] — what the party owes and is owed
 - [[Timeline]] — the order it all happened in
 - [[Views]] — live tables: who is unaccounted for, what we hold and haven't identified, what we believe on one man's word
-
-## What is deliberately not here
-
-See [[_Restricted/README]]. Some of Cael's material is not party knowledge and is not in this vault. That is a design decision, not an oversight.
