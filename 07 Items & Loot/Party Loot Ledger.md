@@ -3,7 +3,7 @@ tags: [ledger]
 ---
 # Party Loot Ledger
 
-Coin and common gear — the things not worth a note of their own.
+The party chest. Coin, and common loot not worth a note of its own — mostly coin.
 
 **Anything notable has its own note**, and who carries it lives in that note's `holder` property. `Items.base` renders that as a table, generated from the notes themselves, so it cannot fall out of date the way a hand-kept list does.
 

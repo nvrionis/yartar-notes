@@ -186,6 +186,7 @@ player:
 species: half-elf
 class: cleric
 subclass: trickery
+pact:
 level:
 familiar: "[[Cookie]]"
 status: alive

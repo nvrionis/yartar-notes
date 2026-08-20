@@ -13,7 +13,6 @@ Things the vault is currently unsure of. Fix these as the campaign confirms them
 | **The burned Waterbaron** | name unknown |
 | **The Orc Warleader** | unnamed |
 | **Duskandale** | spelled as in the raw notes |
-| **Martis** | [[Vaelis]]'s familiar, a sphinx of wonder. Whether it is a Pact of the Chain familiar is unconfirmed. |
 
 Each of these carries `name_confirmed: false` in its frontmatter, so the list can be checked against the notes rather than trusted. See [[Property Schema]].
 
