@@ -5,6 +5,7 @@ status: alive
 species: shadar-kai
 class: warlock
 subclass: hexblade
+familiar: "[[Martis]]"
 first_seen: session-0.5
 last_seen: session-3
 ---
@@ -13,6 +14,8 @@ last_seen: session-3
 Shadar-kai. Hexblade warlock.
 
 Met in the caves beneath [[Noannar's Hold]], where he was part of the group sent for the [[Blue Gem]]. He is the one who destroyed [[The KrakenWizard]].
+
+He keeps a familiar, **[[Martis]]**, a sphinx of wonder.
 
 ## What he does
 

@@ -12,6 +12,7 @@ last_seen:
 aliases:
 name_confirmed:
 source:
+bound_to:
 ---
 # Name
 

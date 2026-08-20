@@ -2,7 +2,7 @@
 tags: [item]
 type: magic
 status: held
-holder: party
+holder: "[[Cael]]"
 identified: true
 attuned: false
 origin: "[[Selda]]"

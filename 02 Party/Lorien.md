@@ -5,6 +5,7 @@ status: alive
 species: human
 class: wizard
 subclass: chronurgy
+familiar: "[[Cookie]]"
 based: "[[Yartar]]"
 first_seen: session-1
 last_seen: session-3
@@ -17,6 +18,7 @@ Met at [[7 Sinners]], dressed up for a business meeting and visibly not used to 
 
 ## Known
 
+- Keeps a familiar, **[[Cookie]]**, an owl.
 - Apprenticed to **[[The Professor]]**, the wizard in the tower east of the [[Evermoors]].
 - Restored [[The Drawbridge]] with his magic.
 - Gave the party's horses and 3 pp to [[Dell]]'s refugees without being asked, and pointed them at [[Duskandale]].

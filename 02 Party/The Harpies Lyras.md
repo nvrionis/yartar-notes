@@ -5,9 +5,11 @@ first_seen: session-2
 ---
 # The Harpies Lyras
 
-The name the party performs under. Introduced at [[The Last Pint]] the night before the poisoning, where they played well enough that a business proposal followed.
+A joke name, coined on the night. The party played a set at [[The Last Pint]] before [[Session 2 - Marked by the Unseen|Session 2]], billed themselves as the Harpies Lyras, and it went well enough that a business proposal followed.
 
-It is currently the closest thing the group has to a public identity, and it is doing more work than anyone planned: a travelling act explains three armed strangers arriving somewhere together, asking questions, and moving on.
+It has not been used since.
+
+*What follows is the group's standing and reputation, which belongs to them whatever they are calling themselves this week.*
 
 ## Standing
 
