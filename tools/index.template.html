@@ -98,7 +98,8 @@ body{
 .facetlabel{font:500 10px/22px var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--faint); margin-right:2px}
 
 /* ---------- boards ---------- */
-.boards{display:flex; gap:6px; flex-wrap:wrap; padding:0 20px 14px; background:var(--paper); border-bottom:1px solid var(--rule)}
+.boards{display:flex; gap:6px; flex-wrap:wrap; padding:11px 0 12px; border-top:1px dashed var(--rule-soft)}
+.filterbtn{display:none}
 .board{
   font:600 11px/1 var(--mono); letter-spacing:.07em; text-transform:uppercase;
   background:var(--raise); border:1px solid var(--rule); color:var(--slate);
@@ -212,45 +213,88 @@ h1.dname{font-family:var(--serif); font-weight:400; font-size:42px; line-height:
 .grp{margin-bottom:26px}
 .grp h3{font:600 10.5px/1 var(--mono); letter-spacing:.13em; text-transform:uppercase; color:var(--brass); margin:0 0 10px; padding-bottom:7px; border-bottom:1px solid var(--rule)}
 
-/* phones: one scrollable strip per control group instead of three wrapped rows,
-   and tap targets that meet the 44px minimum */
-@media (max-width:560px){
-  .bar{padding:10px 14px 0}
-  .boards{padding:0 14px 10px}
+/* ---------------------------------------------------------------------
+   Phones get a different shape, not a squeezed desktop:
+   - only the search row is sticky, so reading a note uses the whole screen
+   - filters and boards live in a sheet you open, not strips you must swipe
+   - tapping a result opens the note full screen with its own back bar
+   --------------------------------------------------------------------- */
+@media (max-width:700px){
+  .bar{position:static; padding:12px 14px 0}
+  .bar-top{gap:10px; margin-bottom:11px}
   .tagline{display:none}
-  .wordmark{font-size:22px}
-  .bar-top{gap:10px; margin-bottom:10px}
-  .chips, .boards, .facets{
-    flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none;
-    -webkit-overflow-scrolling:touch; padding-bottom:10px;
-  }
-  .chips::-webkit-scrollbar, .boards::-webkit-scrollbar, .facets::-webkit-scrollbar{display:none}
-  .chip, .board, .themebtn{
-    min-height:44px; display:inline-flex; align-items:center; flex:0 0 auto; padding:0 13px;
-  }
-  .facets{padding-top:9px}
-  .facetlabel{flex:0 0 auto; line-height:44px}
-  #q{padding:13px 13px 13px 36px}   /* 16px font already set: stops iOS zoom-on-focus */
-  .hits{font-size:10px}
-  .detail{padding:18px 16px 60px}
-  .row{min-height:56px}
-  .rellist button{min-height:40px}
-  .backbtn{min-height:44px}
-}
+  .wordmark{font-size:21px}
 
-@media (max-width:880px){
+  .searchrow{
+    position:sticky; top:0; z-index:60; margin:0 -14px 0; padding:9px 14px;
+    background:var(--paper); border-bottom:1px solid var(--rule); gap:8px;
+  }
+  #q{padding:12px 12px 12px 34px}      /* 16px font stops iOS zoom-on-focus */
+  .hits{order:3; flex-basis:100%; text-align:right; font-size:10px; padding-top:2px}
+
+  .filterbtn{
+    display:inline-flex; align-items:center; gap:5px; flex:0 0 auto; min-height:46px; padding:0 13px;
+    font:600 11px/1 var(--mono); letter-spacing:.07em; text-transform:uppercase;
+    background:var(--raise); border:1px solid var(--rule); color:var(--slate);
+    border-radius:2px; cursor:pointer;
+  }
+  .filterbtn[aria-expanded="true"]{background:var(--ink); border-color:var(--ink); color:var(--ground)}
+  #fcount:not(:empty){
+    display:inline-flex; align-items:center; justify-content:center; min-width:17px; height:17px;
+    padding:0 4px; border-radius:9px; background:var(--brass); color:#fff; font-size:9.5px;
+  }
+
+  /* the sheet */
+  #controls{display:none; padding-bottom:4px}
+  :root.filters-open #controls{display:block}
+  .chips,.facets,.boards{flex-wrap:wrap; padding-bottom:10px}
+  .chip,.board{min-height:44px; display:inline-flex; align-items:center; padding:0 13px}
+  .themebtn{min-height:44px; display:inline-flex; align-items:center; padding:0 12px}
+  .facetlabel{line-height:44px}
+
+  /* list */
+  .work{grid-template-columns:1fr}
+  .index{border-right:none; max-height:none; min-height:0}
+  .row{min-height:60px}
+  .rbody{padding:13px 14px}
+  .rname{font-size:20px}
+
+  /* note, full screen */
+  :root.viewing .bar{display:none}
+  :root.viewing .index{display:none}
+  .detail{max-height:none; padding:0 0 70px}
+  .detailbar{
+    display:flex; align-items:center; gap:10px; position:sticky; top:0; z-index:70;
+    background:var(--paper); border-bottom:1px solid var(--rule); padding:8px 12px; margin-bottom:18px;
+  }
+  .detailbar .bk{
+    flex:0 0 auto; min-height:44px; min-width:44px; display:inline-flex; align-items:center;
+    justify-content:center; background:none; border:1px solid var(--rule); border-radius:2px;
+    color:var(--slate); cursor:pointer; font-size:17px;
+  }
+  .detailbar .bt{
+    font-family:var(--serif); font-size:18px; line-height:1.15; min-width:0; flex:1;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .detailbar .tm{
+    flex:0 0 auto; min-height:44px; padding:0 11px; display:inline-flex; align-items:center;
+    font:600 10px/1 var(--mono); letter-spacing:.06em; text-transform:uppercase;
+    background:none; border:1px solid var(--rule); border-radius:2px; color:var(--slate); cursor:pointer;
+  }
+  :root.table-mode .detailbar .tm{background:var(--brass); border-color:var(--brass); color:#fff}
+  .dhead,.md,.related,.tmnote,.boardview,.placeholder{padding-left:16px; padding-right:16px}
+  h1.dname{font-size:31px}
+  .md{font-size:16px}
+  .rellist button{min-height:40px}
+}
+@media (min-width:701px){ .detailbar{display:none} }
+
+@media (max-width:880px) and (min-width:701px){
   .work{grid-template-columns:1fr}
   .index{max-height:none; min-height:0; border-right:none; border-bottom:1px solid var(--rule)}
   .index.hide-m{display:none}
   .detail{max-height:none; padding:22px 20px 60px}
-  .backbtn{display:inline-flex!important}
   h1.dname{font-size:33px}
-}
-.backbtn{
-  display:none; align-items:center; gap:6px; margin-bottom:16px;
-  font:500 11px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase;
-  background:none; border:1px solid var(--rule); color:var(--slate); padding:8px 11px;
-  border-radius:2px; cursor:pointer;
 }
 </style>
 
@@ -265,15 +309,17 @@ h1.dname{font-family:var(--serif); font-weight:400; font-size:42px; line-height:
   <div class="searchrow">
     <div class="searchwrap">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
-      <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="Search everything &mdash; a name, a place, &ldquo;caravan leader&rdquo;, &ldquo;poison&rdquo;&hellip;">
+      <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="Search everything&hellip;">
     </div>
+    <button class="filterbtn" id="filterbtn" type="button" aria-expanded="false">Filters<span id="fcount"></span></button>
     <span class="hits" id="hits"></span>
   </div>
-  <div class="chips" id="kinds"></div>
-  <div class="facets" id="facets"></div>
+  <div id="controls">
+    <div class="chips" id="kinds"></div>
+    <div class="facets" id="facets"></div>
+    <div class="boards" id="boards"></div>
+  </div>
 </div>
-
-<div class="boards" id="boards"></div>
 
 <div class="work">
   <div class="index" id="index"></div>
@@ -516,9 +562,18 @@ function renderIndex(){
 }
 
 /* ---------- render: detail ---------- */
+function detailBar(title){
+  return '<div class="detailbar">' +
+    '<button class="bk" type="button" id="back" aria-label="Back to the index">&larr;</button>' +
+    '<span class="bt">' + esc(title) + "</span>" +
+    '<button class="tm" type="button" id="tablemode2">Table</button></div>';
+}
 function renderDetail(){
   const el = document.getElementById("detail");
-  if (board){ el.innerHTML = renderBoard(board); el.scrollTop = 0; return; }
+  if (board){
+    el.innerHTML = detailBar(BOARDS.reduce((a,b)=>b[0]===board?b[1]:a,"")) + renderBoard(board);
+    el.scrollTop = 0; window.scrollTo(0,0); return;
+  }
   const n = current && BY_NAME.get(current);
   if (!n){
     el.innerHTML = '<div class="placeholder"><h2>What do you need?</h2>' +
@@ -543,7 +598,7 @@ function renderDetail(){
   const back = BY_NAME.has(n.name) ? DATA.filter(d => d.links.includes(n.name)).map(d => d.name) : [];
   const rel = [...new Set(n.links.concat(back))];
   el.innerHTML =
-    '<button class="backbtn" type="button" id="back">&larr; Index</button>' +
+    detailBar(n.name) +
     '<div class="dhead"><div class="dkind">' + esc(n.kind) + "</div>" +
     '<h1 class="dname">' + esc(n.name) + "</h1>" +
     '<div class="props">' + props + "</div></div>" +
@@ -646,34 +701,54 @@ function renderBoards(){
 }
 
 /* ---------- events ---------- */
+const isPhone = () => window.innerWidth <= 700;
+function enterDetail(){
+  if (isPhone()){
+    document.documentElement.classList.add("viewing");
+    document.documentElement.classList.remove("filters-open");
+    document.getElementById("filterbtn").setAttribute("aria-expanded","false");
+    window.scrollTo(0,0);
+  } else if (window.innerWidth <= 880){
+    document.getElementById("index").classList.add("hide-m");
+  }
+}
+function leaveDetail(){
+  document.documentElement.classList.remove("viewing");
+  document.getElementById("index").classList.remove("hide-m");
+  window.scrollTo(0,0);
+}
 function go(name){
   current = name; board = null;
-  renderBoards(); renderIndex(); renderDetail();
-  if (window.innerWidth <= 880) document.getElementById("index").classList.add("hide-m");
+  renderBoards(); renderIndex(); renderDetail(); enterDetail();
 }
 document.addEventListener("click", e => {
   const g = e.target.closest("[data-go]");
   if (g){ go(g.dataset.go); return; }
   const k = e.target.closest("[data-kind]");
-  if (k){ kind = k.dataset.kind; facet = null; renderKinds(); renderFacets(); renderIndex(); return; }
+  if (k){ kind = k.dataset.kind; facet = null; renderKinds(); renderFacets(); renderIndex(); renderFilterCount(); return; }
   const f = e.target.closest("[data-fk]");
   if (f){
     const same = facet && facet.k === f.dataset.fk && facet.v === f.dataset.fv;
     facet = same ? null : {k:f.dataset.fk, v:f.dataset.fv};
-    renderFacets(); renderIndex(); return;
+    renderFacets(); renderIndex(); renderFilterCount(); return;
   }
   const b = e.target.closest("[data-board]");
   if (b){
     board = board === b.dataset.board ? null : b.dataset.board;
     current = null; renderBoards(); renderDetail();
-    if (board && window.innerWidth <= 880) document.getElementById("index").classList.add("hide-m");
+    if (board) enterDetail(); else leaveDetail();
     return;
   }
-  if (e.target.closest("#back")){ document.getElementById("index").classList.remove("hide-m"); return; }
-  const tm = e.target.closest("#tablemode");
-  if (tm){
+  if (e.target.closest("#back")){ leaveDetail(); return; }
+  const fb = e.target.closest("#filterbtn");
+  if (fb){
+    const open = document.documentElement.classList.toggle("filters-open");
+    fb.setAttribute("aria-expanded", String(open));
+    return;
+  }
+  if (e.target.closest("#tablemode") || e.target.closest("#tablemode2")){
     const on = document.documentElement.classList.toggle("table-mode");
-    tm.setAttribute("aria-pressed", String(on));
+    document.getElementById("tablemode").setAttribute("aria-pressed", String(on));
     try { localStorage.setItem("yartar-table-mode", on ? "1" : "0"); } catch (err) {}
     return;
   }
@@ -689,9 +764,14 @@ const qEl = document.getElementById("q");
 qEl.addEventListener("input", () => {
   query = qEl.value.trim();
   if (query && board){ board = null; renderBoards(); renderDetail(); }
-  document.getElementById("index").classList.remove("hide-m");
+  if (query) leaveDetail();
   renderIndex();
 });
+function renderFilterCount(){
+  const n = (kind !== "all" ? 1 : 0) + (facet ? 1 : 0);
+  const el = document.getElementById("fcount");
+  if (el) el.textContent = n ? String(n) : "";
+}
 document.addEventListener("keydown", e => {
   if (e.key === "/" && document.activeElement !== qEl){ e.preventDefault(); qEl.focus(); qEl.select(); }
   if (e.key === "Escape" && document.activeElement === qEl){ qEl.value = ""; query = ""; renderIndex(); }
@@ -704,5 +784,5 @@ try {
   }
 } catch (err) {}
 
-renderKinds(); renderFacets(); renderBoards(); renderIndex(); renderDetail();
+renderKinds(); renderFacets(); renderBoards(); renderIndex(); renderDetail(); renderFilterCount();
 </script>
