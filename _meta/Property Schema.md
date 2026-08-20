@@ -57,6 +57,7 @@ last_seen: session-3
 aliases: [Doman Vein]
 name_confirmed: true
 source: "[[Tom Farow]]"
+bound_to: "[[Vaelis]]"
 ```
 
 Three separate axes, because they answer three separate questions and used to be crushed into one:
@@ -64,6 +65,8 @@ Three separate axes, because they answer three separate questions and used to be
 - **`tier`** — how much they matter. `major` drives the plot; `recurring` has come back or will; `minor` had a scene; `background` is colour and cover.
 - **`status`** — are they alive. Nothing else.
 - **`disposition`** — where they stand *with the party*, as last observed.
+
+`bound_to` is for a creature that belongs to someone — a familiar, a mount, a construct. [[Martis]] is bound to [[Vaelis]]; the reverse link is `familiar` on the PC note.
 
 `aliases` is an Obsidian built-in: with `aliases: [Doman Vein]` on [[The Knife]], a `[[Doman Vein]]` link resolves to him natively.
 
@@ -182,7 +185,9 @@ player_character: true
 player:
 species: half-elf
 class: cleric
+subclass: trickery
 level:
+familiar: "[[Cookie]]"
 status: alive
 first_seen: session-0.5
 ```

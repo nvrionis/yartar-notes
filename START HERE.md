@@ -3,7 +3,7 @@ tags: [meta]
 ---
 # The Vault
 
-Campaign notes for the party currently billed, when it suits them, as **[[The Harpies Lyras]]**.
+Campaign notes for [[Cael]], [[Vaelis]] and [[Lorien]].
 
 Neutral record of what happened, plus [[Cael]]'s own reading of it in the margins.
 

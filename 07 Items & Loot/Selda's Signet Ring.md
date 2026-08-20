@@ -2,7 +2,7 @@
 tags: [item]
 type: mundane
 status: held
-holder: party
+holder: "[[Lorien]]"
 identified: false
 origin: "[[Selda]]"
 first_seen: session-2

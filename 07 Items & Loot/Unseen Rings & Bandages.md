@@ -2,7 +2,7 @@
 tags: [item]
 type: mundane
 status: held
-holder: party
+holder: "[[Cael]]"
 identified: true
 origin: "[[The Unseen]]"
 first_seen: session-2
